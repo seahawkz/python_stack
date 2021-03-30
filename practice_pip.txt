@@ -1,0 +1,10 @@
+pip install Django==1.11.9  -- Installs django version 1.11.9
+pip list -- Shows a list of installed libraries
+deactivate -- deactivates virtual environment
+pip3 list  -- shows libraries installed on main environment
+call myEnvironments/py3Env/Scripts/activate -- activates virtual environment
+pip install Django==1.11.9 --Requiremnt already satisfied
+pip freeze -- lists all modules installed with version number in a format that is compatible with a requirements.txt file
+pip freeze > requirements.txt  -- creates a txt doc with all the required modules
+pip uninstall Django -- uninstalls Django
+pip show Django -- Warning package not found: Django
