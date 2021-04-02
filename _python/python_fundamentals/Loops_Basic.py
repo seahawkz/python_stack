@@ -22,3 +22,9 @@ print(sum)
 for n in range(2018,0,-4):
     print(n)
 # Set three variables: lowNum, highNum, mult. Starting at lowNum and going through highNum, print only the integers that are a multiple of mult
+low_num = 2
+high_num = 9
+mult = 3
+for n in range(low_num, high_num + 1):
+    if n % mult == 0:
+        print(n)
