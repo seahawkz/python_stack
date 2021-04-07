@@ -13,7 +13,7 @@ class User:
         return self
     # display user balance
     def display_user_balance(self):
-        print(f"User: {self.name}, Balance: ${self.account.balance}")
+        self.account.display_account_info()
         return self
     # transfer money
     def transfer_money(self, other_user, amount):
@@ -52,3 +52,5 @@ jen = User("Jen", "jen@email.com")
 john = User("John", "john@email.com")
 
 fred.make_deposit(400).make_withdrawal(300).display_user_balance()
+fred.account.yield_interest().display_account_info()
+fred.display_user_balance()
