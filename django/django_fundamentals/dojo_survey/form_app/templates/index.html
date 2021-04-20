@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>User</title>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+            integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+            crossorigin="anonymous"
+        />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    </head>
+
+    <body id="index">
+        <div class="container" id="form1">
+            <h1>Fill out the form:</h1>
+
+            <form action="/process" method="POST" id="f1">
+                {% csrf_token %} Name: <input type="text" name="name" />
+                <p>
+                    Favorite Language:
+                    <select name="language">
+                        <option value="python">Python</option>
+                        <option value="c#">C#</option>
+                        <option value="java">Java</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="c">C</option>
+                    </select>
+                </p>
+                <p>
+                    Languages That You Are Fluent In:
+
+                    <input type="checkbox" name="fluent[]" value="python" />
+                    <label for="python">Python</label>
+
+                    <input type="checkbox" name="fluent[]" value="c#" />
+                    <label for="c#">C#</label>
+
+                    <input type="checkbox" name="fluent[]" value="java" />
+                    <label for="java">Java</label>
+
+                    <input type="checkbox" name="fluent[]" value="javascript" />
+                    <label for="javascript">JavaScript</label>
+
+                    <input type="checkbox" name="fluent[]" value="c" />
+                    <label for="c">C</label>
+                </p>
+                <p>
+                    Dojo Location:
+                    <label for="tampa">Tampa Bay</label>
+                    <input type="radio" id="tampa" name="location" value="tampa" />
+                    <label for="chicago">Chicago</label>
+                    <input type="radio" id="chicago" name="location" value="chicago" />
+                    <label for="ny">New York</label>
+                    <input type="radio" id="ny" name="location" value="ny" />
+                    <label for="seattle">Seattle</label>
+                    <input type="radio" id="seattle" name="location" value="seattle" />
+                    <label for="la">Los Angeles</label>
+                    <input type="radio" id="la" name="location" value="la" />
+                </p>
+                <input type="submit" value="View User" />
+            </form>
+        </div>
+    </body>
+</html>
