@@ -20,7 +20,7 @@
 
             <form action="/process" method="POST" id="f1">
                 {% csrf_token %} Name: <input type="text" name="name" />
-                <p>
+                <div>
                     Favorite Language:
                     <select name="language">
                         <option value="python">Python</option>
@@ -29,8 +29,8 @@
                         <option value="javascript">JavaScript</option>
                         <option value="c">C</option>
                     </select>
-                </p>
-                <p>
+                </div>
+                <div>
                     Languages That You Are Fluent In:
 
                     <input type="checkbox" name="fluent[]" value="python" />
@@ -47,8 +47,8 @@
 
                     <input type="checkbox" name="fluent[]" value="c" />
                     <label for="c">C</label>
-                </p>
-                <p>
+                </div>
+                <div>
                     Dojo Location:
                     <label for="tampa">Tampa Bay</label>
                     <input type="radio" id="tampa" name="location" value="tampa" />
@@ -60,7 +60,12 @@
                     <input type="radio" id="seattle" name="location" value="seattle" />
                     <label for="la">Los Angeles</label>
                     <input type="radio" id="la" name="location" value="la" />
-                </p>
+                </div>
+                <div>
+                    <p><label for="comment">Comments (optional):</label></p>
+                    <textarea name="comment" id="comment" cols="60" rows="4"></textarea>
+                </div>
+
                 <input type="submit" value="View User" />
             </form>
         </div>

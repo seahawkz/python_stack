@@ -10,7 +10,8 @@ def process(request):
             'name': request.POST['name'],
             'lang': request.POST['language'],
             'loc': request.POST['location'],
-            'flu': request.POST.getlist('fluent[]')
+            'flu': request.POST.getlist('fluent[]'),
+            'com': request.POST['comment']
         }
         return render(request, 'result.html', context)
     return render(request, 'result.html')
