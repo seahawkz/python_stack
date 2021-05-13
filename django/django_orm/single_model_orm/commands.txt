@@ -1,0 +1,31 @@
+>>> from users_app.models import *
+>>> User.objects.create(first_name='Joe', last_name='Smith', email_address='joe@gmail.com', age=30)
+<User: User object (1)>
+>>> User.objects.create(first_name='Jen', last_name='Jones', email_address='jen@gmail.com', age=32) 
+<User: User object (2)>
+>>> User.objects.create(first_name='Bill', last_name='Jackson', email_address='bill@gmail.com', age=39) 
+<User: User object (3)>
+>>> User.objects.all()
+<QuerySet [<User: Joe Smith>, <User: Jen Jones>, <User: Bill Jackson>]>
+<User: Bill Jackson>
+>>> User.objects.first()
+<User: Joe Smith>
+>>> user3 = User.objects.get(id=3)
+>>> user3
+<User: Bill Jackson>
+>>> user3.last_name = "Pancakes"
+>>> user3.save()
+>>> user3
+<User: Bill Pancakes>
+>>> user2 = User.objects.get(id=2)
+>>> user2
+<User: Jen Jones>
+>>> user2.delete()
+(1, {'users_app.User': 1})
+>>> User.objects.all()
+<QuerySet [<User: Joe Smith>, <User: Bill Pancakes>]>
+<QuerySet [<User: Joe Smith>, <User: Bill Pancakes>]>
+>>> User.objects.order_by('first_name')
+<QuerySet [<User: Bill Pancakes>, <User: Joe Smith>]>
+>>> User.objects.order_by('-first_name') 
+<QuerySet [<User: Joe Smith>, <User: Bill Pancakes>]>
