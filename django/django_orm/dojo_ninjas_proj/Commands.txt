@@ -1,0 +1,57 @@
+>>> from dojo_ninjas_app.models import *
+>>> Dojo.objects.create(name='Super Dojo', city='Seattle',state='WA')
+<Dojo: Super Seattle, WA>
+>>> Dojo.objects.create(name='Lame Dojo', city='Portland',state='OR') 
+<Dojo: Lame Dojo Portland, OR>
+>>> Dojo.objects.create(name='Punishers Dojo', city='Puyallup',state='WA') 
+<Dojo: Punishers Dojo Puyallup, WA>
+rm_dojos = Dojo.objects.get(id=1)
+>>> rm_dojos.delete()
+(1, {'dojo_ninjas_app.Ninja': 0, 'dojo_ninjas_app.Dojo': 1})
+rm_dojos2 = Dojo.objects.get(id=2)
+rm_dojos3 = Dojo.objects.get(id=3)
+>>> rm_dojos2.delete()
+(1, {'dojo_ninjas_app.Ninja': 0, 'dojo_ninjas_app.Dojo': 1})
+>>> rm_dojos3.delete()
+(1, {'dojo_ninjas_app.Ninja': 0, 'dojo_ninjas_app.Dojo': 1})
+>>> Dojo.objects.create(name='Super Dojo', city='Seattle',state='WA')
+<Dojo: Super Dojo Seattle, WA>
+>>> Dojo.objects.create(name='Lame Dojo', city='Portland',state='OR')
+<Dojo: Lame Dojo Portland, OR>
+>>> Dojo.objects.create(name='Punishers Dojo', city='Puyallup',state='WA')
+<Dojo: Punishers Dojo Puyallup, WA>
+>>> Dojo.objects.all()
+<QuerySet [<Dojo: Super Dojo Seattle, WA>, <Dojo: Lame Dojo Portland, OR>, <Dojo: Punishers Dojo Puyallup, WA>]>
+>>> super= Dojo.objects.get(id=4)
+>>> lame= Dojo.objects.get(id=5)
+>>> punish= Dojo.objects.get(id=6)
+>>> Ninja.objects.create(first_name='John', last_name='Smith', dojo=super)        
+<Ninja: John Smith>
+>>> Ninja.objects.create(first_name='Jim', last_name='Jones', dojo=super)  
+<Ninja: Jim Jones>
+>>> Ninja.objects.create(first_name='Steve', last_name='Jackson', dojo=super) 
+<Ninja: Steve Jackson>
+>>> Ninja.objects.create(first_name='Jane', last_name='Smith', dojo=lame)  
+<Ninja: Jane Smith>
+>>> Ninja.objects.create(first_name='Joan', last_name='Rodgers', dojo=lame) 
+<Ninja: Joan Rodgers>
+>>> Ninja.objects.create(first_name='River', last_name='Bend', dojo=lame) 
+<Ninja: River Bend>
+>>> Ninja.objects.create(first_name='Derek', last_name='Anderson', dojo=punish) 
+<Ninja: Derek Anderson>
+>>> Ninja.objects.create(first_name='Josh', last_name='Johnson', dojo=punish)   
+<Ninja: Josh Johnson>
+>>> Ninja.objects.create(first_name='Billy', last_name='Idle', dojo=punish)     
+<Ninja: Billy Idle>
+>>> ninjas = Ninja.objects.filter(dojo=super) 
+>>> ninjas
+<QuerySet [<Ninja: John Smith>, <Ninja: Jim Jones>, <Ninja: Steve Jackson>]>
+>>> ninjas2 = Ninja.objects.filter(dojo=lame)
+>>> ninjas3 = Ninja.objects.filter(dojo=punish) 
+>>> ninjas2
+<QuerySet [<Ninja: Jane Smith>, <Ninja: Joan Rodgers>, <Ninja: River Bend>]>
+>>> ninjas3
+<QuerySet [<Ninja: Derek Anderson>, <Ninja: Josh Johnson>, <Ninja: Billy Idle>]>
+>>> from dojo_ninjas_app.models import *
+>>> Dojo.objects.create(name='Dreadful Dojo', city='Sumner', state='WA', desc='New Dojo')
+<Dojo: Dreadful Dojo Sumner, WA. New Dojo.>
