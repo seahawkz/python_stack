@@ -8,5 +8,6 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
+    @property
+    def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
