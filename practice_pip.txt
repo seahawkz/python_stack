@@ -8,3 +8,14 @@ pip freeze -- lists all modules installed with version number in a format that i
 pip freeze > requirements.txt  -- creates a txt doc with all the required modules
 pip uninstall Django -- uninstalls Django
 pip show Django -- Warning package not found: Django
+
+cd python_stack/django/django_intro
+django_intro> django-admin startproject your_project_name_here
+
+python manage.py runserver
+
+python manage.py startapp your_app_name_here
+
+python manage.py makemigrations
+python manage.py migrate
+
