@@ -1,5 +1,7 @@
 from django.db import models
 import re
+
+from django.db.models.fields.related import ManyToManyField
 import bcrypt
 
 
@@ -54,9 +56,22 @@ class User(models.Model):
     birthdate = models.DateField()
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     objects = LoginManager()
 
     @property
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
+
+class Game(models.Model):
+    game_type = models.CharField(max_length=255)
+    buy_in = models.CharField(max_length=45)
+    location = models.CharField(max_length=255)
+    date = models.DateTimeField()
+    host = models.ForeignKey(User, related_name='user_host', on_delete=models.CASCADE)
+    join = models.ManyToManyField(User, related_name='joined_games')
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

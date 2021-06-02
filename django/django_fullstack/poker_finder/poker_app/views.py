@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import User
+from .models import Game, User
 
 def index(request):
     return render(request, 'login.html')
@@ -42,3 +42,10 @@ def success(request):
         'user': user
     }
     return render(request, 'dashboard.html', context)
+
+def events(request):
+    return render(request, 'events.html', {"games": Game.objects.all()})
+
+def create(request):
+    # Game.objects.create(game_type=request.POST['game_type'],buy_in=request.POST['buy_in'],location=request.POST['location'],date=request.POST['date'],description=request.POST['description'])
+    return redirect('/events')

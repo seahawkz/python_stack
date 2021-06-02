@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Host a Game</title>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+            crossorigin="anonymous"
+        />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-success">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/dashboard">Poker Pals</a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/create">Host a Game</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/search">Find a Game</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/account">Account</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <h1>Host a Game</h1>
+            <section class="split-screen">
+                <form action="/events" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="game_type">Game Type</label>
+                        <input type="text" name="game_type" id="game_type" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="buy_in">Buy In</label>
+                        <input type="text" name="buy_in" id="buy_in" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" name="location" id="location" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Event Date</label>
+                        <input type="date" name="date" id="date" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" class="form-control"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th>Game Type</th>
+                            <th>Buy In</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games %}
+                        <tr>
+                            <td>{{ game.game_type }}</td>
+                            <td>{{ game.buy_in }}</td>
+                            <td>{{ game.location }}</td>
+                            <td>{{ game.date }}</td>
+                            <!-- <td><a href="/event/{{ pokergame.id }}">View</a></td> -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </body>
+</html>
