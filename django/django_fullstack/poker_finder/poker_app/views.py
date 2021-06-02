@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Game, User
@@ -27,12 +28,13 @@ def login(request):
         return redirect('/')
     user = User.objects.get(email=request.POST['email'])
     request.session['user_id'] = user.id
-    messages.success(request, "You have successfully logged in!")
     return redirect('/dashboard')
 
 def logout(request):
     request.session.clear()
+    messages.success(request, "You have successfully logged out!")
     return redirect('/')
+    
 
 def success(request):
     if 'user_id' not in request.session:
@@ -46,6 +48,20 @@ def success(request):
 def events(request):
     return render(request, 'events.html', {"games": Game.objects.all()})
 
+def host(request):
+    return render(request, 'create.html')
+
+def players(request):
+    return render(request, 'users.html', {"users": User.objects.all()})
+
 def create(request):
-    # Game.objects.create(game_type=request.POST['game_type'],buy_in=request.POST['buy_in'],location=request.POST['location'],date=request.POST['date'],description=request.POST['description'])
-    return redirect('/events')
+    if request.method == "POST":
+        Game.objects.create(
+            game_type = request.POST['game_type'],
+            buy_in = request.POST['buy_in'],
+            location = request.POST['location'],
+            date = request.POST['date'],
+            description = request.POST['description'],
+            host = User.objects.get(id=request.session['id'])
+        )
+    return redirect('/dashboard')

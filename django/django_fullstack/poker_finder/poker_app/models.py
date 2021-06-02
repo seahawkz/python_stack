@@ -69,9 +69,12 @@ class Game(models.Model):
     game_type = models.CharField(max_length=255)
     buy_in = models.CharField(max_length=45)
     location = models.CharField(max_length=255)
-    date = models.DateTimeField()
-    host = models.ForeignKey(User, related_name='user_host', on_delete=models.CASCADE)
+    date = models.DateField()
+    host = models.ForeignKey(User, related_name='host', on_delete=models.CASCADE)
     join = models.ManyToManyField(User, related_name='joined_games')
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{}'.format(self.game_type)

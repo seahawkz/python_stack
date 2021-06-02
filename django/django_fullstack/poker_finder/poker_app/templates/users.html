@@ -34,14 +34,38 @@
                             <a class="nav-link" aria-current="page" href="/create">Host a Game</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/search">Find a Game</a>
+                            <a class="nav-link" href="/events">Find a Game</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/account">Account</a>
+                            <a class="nav-link" aria-current="page" href="/players">Registered Players</a>
                         </li>
                     </ul>
+                    <span class="navbar-text">
+                        <a href="/logout">Log Out</a>
+                    </span>
                 </div>
             </div>
         </nav>
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Player Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.full_name }}</td>
+                        <td>{{ user.birthdate }}</td>
+                        <td>{{ user.email }}</td>
+                        <!-- <td><a href="/event/{{ pokergame.id }}">View</a></td> -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>
