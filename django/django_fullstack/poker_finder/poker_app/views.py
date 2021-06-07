@@ -1,7 +1,7 @@
 import re
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import Game, User
+from .models import Game, User, Comment
 
 def index(request):
     return render(request, 'login.html')
@@ -42,6 +42,7 @@ def success(request):
     user = User.objects.get(id=request.session['user_id'])
     context = {
         'user': user
+        
     }
     return render(request, 'dashboard.html', context)
 
@@ -54,6 +55,22 @@ def host(request):
 def players(request):
     return render(request, 'users.html', {"users": User.objects.all()})
 
+def dashboard(request):
+    user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'user': user,
+        'games': Game.objects.all()    
+    }   
+    return render(request, 'dashboard.html', context)
+
+def event(request, game_id):
+    game = Game.objects.get(id=game_id)
+    context = {
+        'game': game,
+        'games': Game.objects.all(),   
+    }
+    return render(request, 'event.html', context)
+
 def create(request):
     if request.method == "POST":
         Game.objects.create(
@@ -62,6 +79,24 @@ def create(request):
             location = request.POST['location'],
             date = request.POST['date'],
             description = request.POST['description'],
-            host = User.objects.get(id=request.session['id'])
+            host = User.objects.get(id=request.session['user_id'])
         )
+    return redirect('/dashboard')
+
+def comment(request, id):
+    poster = User.objects.get(id=request.session['user_id'])
+    message = Game.objects.get(id=id)
+    Comment.objects.create(comment=request.POST['comment'], poster=poster, game_message=message)
+    return redirect('/events')
+
+def join(request, id):
+    joined_games = Game.objects.get(id=id)
+    user_join = User.objects.get(id=request.session['user_id'])
+    joined_games.poker_players.add(user_join)
+    return redirect('/dashboard')
+
+def leave(request, id):
+    joined_games = Game.objects.get(id=id)
+    user_join = User.objects.get(id=request.session['user_id'])
+    joined_games.poker_players.remove(user_join)
     return redirect('/dashboard')

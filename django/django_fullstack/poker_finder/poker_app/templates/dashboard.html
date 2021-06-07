@@ -31,7 +31,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/create">Host a Game</a>
+                            <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/host">Host a Game</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/events">Find a Game</a>
@@ -46,5 +49,66 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+            <h1>Hello {{ user.first_name }}</h1>
+            <section>
+                <h2>Games You Are Hosting</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Game Type</th>
+                            <th>Buy In</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Players</th>
+                            <th>Event Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games %} {% if game.host == user %}
+                        <tr>
+                            <td>{{ game.game_type }}</td>
+                            <td>{{ game.buy_in }}</td>
+                            <td>{{ game.location }}</td>
+                            <td>{{ game.date }}</td>
+                            <td>{{ game.poker_players.count }}</td>
+                            <td><a href="/event/{{ game.id }}">Details</a></td>
+                        </tr>
+                        {% endif %}{% endfor %}
+                    </tbody>
+                </table>
+            </section>
+            <section>
+                <h2>Registered For These Games</h2>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Game Type</th>
+                            <th>Buy In</th>
+                            <th>Location</th>
+                            <th>Date</th>
+                            <th>Players</th>
+                            <th>Host</th>
+                            <th>Event Details</th>
+                            <th>Leave Game</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games %} {% if user in game.poker_players.all %}
+                        <tr>
+                            <td>{{ game.game_type }}</td>
+                            <td>{{ game.buy_in }}</td>
+                            <td>{{ game.location }}</td>
+                            <td>{{ game.date }}</td>
+                            <td>{{ game.poker_players.count }}</td>
+                            <td>{{ game.host.full_name }}</td>
+                            <td><a href="/event/{{ game.id }}">Details</a></td>
+                            <td><a href="/leave/{{game.id}}">Leave Game</a></td>
+                        </tr>
+                        {% endif %}{% endfor %}
+                    </tbody>
+                </table>
+            </section>
+        </div>
     </body>
 </html>

@@ -71,10 +71,14 @@ class Game(models.Model):
     location = models.CharField(max_length=255)
     date = models.DateField()
     host = models.ForeignKey(User, related_name='host', on_delete=models.CASCADE)
-    join = models.ManyToManyField(User, related_name='joined_games')
+    poker_players = models.ManyToManyField(User, related_name='poker_players')
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return '{}'.format(self.game_type)
+class Comment(models.Model):
+    comment = models.CharField(max_length=255)
+    poster = models.ForeignKey(User, related_name='user_comments', on_delete=models.CASCADE)
+    game_message = models.ForeignKey(Game, related_name="game_comments", on_delete=models.CASCADE)
+
+
