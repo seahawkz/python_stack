@@ -16,4 +16,10 @@ urlpatterns = [
     path('comment/<int:id>', views.comment),
     path('join/<int:id>', views.join),
     path('leave/<int:id>', views.leave),
+    path('profile', views.profile),
+    path('edit/<int:id>', views.edit),
+    path('delete/<int:id>', views.delete),
+    path('delete_comment/<int:id>', views.delete_comment),
+    path('event/edit/<int:id>', views.edit_game)
+
 ]

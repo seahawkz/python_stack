@@ -36,8 +36,39 @@ html {
     margin: 0;
     min-height: 100%;
 }
-/* body {
+body {
     margin: 0;
     min-height: 100%;
     background-image: url(/static/images/poker.jpg);
-} */
+}
+.container {
+    background-color: rgb(230, 193, 145);
+    padding: 15px;
+}
+h1,
+h2 {
+    margin: 10px 0px 10px 0px;
+}
+table {
+    margin-top: 10px;
+}
+form {
+    margin: 10px 0px 10px 0px;
+}
+button {
+    margin: 10px 0px 10px 0px;
+}
+input {
+    background-color: rgb(243, 245, 145);
+}
+li.error {
+    color: rgb(236, 18, 18);
+    font-weight: bold;
+}
+li.success {
+    color: rgb(65, 241, 65);
+    font-weight: bold;
+}
+ul.messages {
+    list-style: none;
+}

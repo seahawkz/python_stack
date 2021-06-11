@@ -31,6 +31,9 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/host">Host a Game</a>
                         </li>
                         <li class="nav-item">
@@ -38,6 +41,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="/players">Registered Players</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/profile">Player Profile</a>
                         </li>
                     </ul>
                     <span class="navbar-text">
@@ -47,22 +53,78 @@
             </div>
         </nav>
         <div class="container">
-            <h1>{{ game.game_type }} - {{ game.date }} - Details</h1>
-            <p><strong>Description</strong> {{ game.description }}</p>
-            <p><strong>Players</strong> {{ game.poker_players.count }}</p>
-            <p><strong>Buy In</strong> ${{ game.buy_in }}</p>
-            <a href="/join/{{game.id}}">Join Game</a>
-            <div>
-                <form action="/comment/{{ game.id }}" method="post">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <label for="comment"><strong>Comments:</strong></label>
+            <div class="row">
+                <div class="col-sm">
+                    {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <h1>{{ game.game_type }} - {{ game.date }} - Details</h1>
+                    <p><strong>Game Type: </strong> {{ game.game_type }}</p>
+                    <p><strong>Description: </strong> {{ game.description }}</p>
+                    <p><strong>Players: </strong> {{ game.poker_players.count }}</p>
+                    <p><strong>Buy In: </strong> ${{ game.buy_in }}</p>
+                    <a href="/join/{{game.id}}">Join Game</a>
+                    <div>
+                        <form action="/comment/{{ game.id }}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="comment"><strong>Add A Comment:</strong></label>
+                                <div>
+                                    <textarea name="comment" id="comment" cols="50" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                    <div>
+                        <h3>Comments From Players</h3>
                         <div>
-                            <textarea name="comment" id="comment" cols="50" rows="10"></textarea>
+                            <table class="table table-primary">
+                                <thead>
+                                    <tr>
+                                        <th>Comment</th>
+                                        <th>Posted By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for comment in comments %}{% if game.id == comment.game_message.id %}
+                                    <tr>
+                                        <td>
+                                            {{ comment.comment }} {% if request.session.user_id == comment.poster.id %}
+                                            <a href="/delete_comment/{{comment.id}}">delete</a>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ comment.poster.full_name }}</td>
+                                    </tr>
+                                    {% endif %}{% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <button class="btn btn-primary">Submit</button>
-                </form>
+                    {% if request.session.user_id == game.host.id %}
+                    <h2>Edit Event:</h2>
+                    <form action="/event/edit/{{game.id}}" method="POST">
+                        {% csrf_token %} <strong>Game Type: </strong><input type="text" name="game_type" value="{{game.game_type}}" />
+                        <strong>Buy In: </strong>
+                        <input type="text" name="buy_in" value="{{game.buy_in}}" />
+                        <strong>Location: </strong><input type="text" name="location" value="{{game.location}}" /> <strong>Date: </strong
+                        ><input type="date" name="date" value="{{game.dateview}}" />
+
+                        <div>
+                            <strong>Description: </strong>
+                        </div>
+                        <input type="textarea" name="description" value="{{game.description}}" />
+                        <div>
+                            <button class="btn btn-primary">Submit Changes</button>
+                        </div>
+                    </form>
+                    <a href="/delete/{{game.id}}">Cancel Event</a>
+                    {% endif %}
+                </div>
             </div>
         </div>
     </body>

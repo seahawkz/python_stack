@@ -1,4 +1,6 @@
+from typing import NoReturn
 from django.db import models
+from datetime import datetime
 import re
 
 from django.db.models.fields.related import ManyToManyField
@@ -29,7 +31,13 @@ class LoginManager(models.Manager):
         
         if form['password'] != form['confirm']:
             errors['password'] = 'Passwords do not match'
-        
+
+        birthdate = form['birthdate']
+        date_object = datetime.strptime(birthdate, "%Y-%m-%d")
+        present = datetime.now()
+        if date_object.date() > present.date():
+            errors['birthdate'] = "You can't be born in the future!"
+
         return errors
 
     def authenticate(self, email, password):
@@ -59,11 +67,34 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def viewbirthdate(self):
+        return '{}'.format(self.birthdate)
     objects = LoginManager()
 
     @property
     def full_name(self):
         return '{} {}'.format(self.first_name, self.last_name)
+
+class EventManager(models.Manager):
+    def validate(self, form):
+        errors = {}
+        if len(form['game_type']) < 2:
+            errors['game_type'] = 'Game type must be at least 2 characters long!'
+        
+        if len(form['buy_in']) < 1:
+            errors['last_name'] = 'You must provide the buy in cost!'
+
+        if len(form['location']) < 2:
+            errors['location'] = 'Location must be at least 2 characters long!'
+
+        date = form['date']
+        date_object = datetime.strptime(date, "%Y-%m-%d")
+        present = datetime.now()
+        if date_object.date() < present.date():
+            errors['date'] = "Events can't be scheduled in the past!"
+        if date_object.date() == None:
+            errors['date'] = "You must enter a date"
+        return errors
 
 class Game(models.Model):
     game_type = models.CharField(max_length=255)
@@ -75,6 +106,10 @@ class Game(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def dateview(self):
+        return '{}'.format(self.date)
+    objects = EventManager()
 
 class Comment(models.Model):
     comment = models.CharField(max_length=255)
